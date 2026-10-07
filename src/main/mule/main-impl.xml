@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="9fc2737d-9b21-4301-80c8-e7bcdf2420c8" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="main-implFlow" doc:id="7c1e8edf-e4f3-46c5-82ef-41e5e1270a2e" >
+		<http:listener doc:name="Listener" doc:id="9433d1fa-2691-4223-b65e-7906c1252f5e" config-ref="HTTP_Listener_config" path="/loan"/>
+		<logger level="INFO" doc:name="Logger" doc:id="90fa9078-57fa-4793-803b-f31f37971d4a" message='#[this is git]'/>
+		<ee:transform doc:name="Transform Message" doc:id="49a3ecaf-95ae-4ab6-b343-5f44b3aece46" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	"message": "response from git"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
